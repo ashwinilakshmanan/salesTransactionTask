@@ -1,12 +1,36 @@
-# React + Vite
+# React Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a React project that can be cloned and run locally.
 
-Currently, two official plugins are available:
+## Prerequisites
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Make sure you have the following installed:
+- [Node.js](https://nodejs.org/) (Recommended: Latest LTS version)
+- [npm](https://www.npmjs.com/) (comes with Node.js)
+- [Git](https://git-scm.com/)
 
-## Expanding the ESLint configuration
+## 🛠️ Installation
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+To get started, follow the steps below:
+
+1. **Clone the repository**
+
+```bash
+git clone https://github.com/ashwinilakshmanan/salesTransactionTask.git
+cd your-repo-name
+
+#Install Dependencies and Run the App
+#After cloning, navigate into the project folder inside the repository:
+
+cd folder-name
+
+#Then, install the required dependencies in the visual studio code terminal:
+
+npm install
+
+#Finally, run the application using:
+
+npm run dev
+
+#This should ensure the steps are clear for setting up the project.
+
