@@ -83,6 +83,9 @@ const ReusableTable = ({
   const [columnFilters, setColumnFilters] = useState([]);
   const [statusFilter, setStatusFilter] = useState('');
 
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [filteredData, setFilteredData] = useState(data);
 
   const [columnOrder, setColumnOrder] = useState([]);
 
@@ -91,6 +94,24 @@ const ReusableTable = ({
   useEffect(() => {
     setColumnOrder(columns.map(col => col.id));
   }, [columns]);
+
+  useEffect(() => {
+    let result = [...data];
+
+    // Apply date range filter if both dates are provided
+    if (startDate && endDate) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      end.setHours(23, 59, 59, 999);
+
+      result = result.filter(item => {
+        const itemDate = new Date(item.date);
+        return itemDate >= start && itemDate <= end;
+      });
+    }
+
+    setFilteredData(result);
+  }, [data, startDate, endDate]);
 
   const reorderColumn = (draggedColumnId, targetColumnId) => {
     const newColumnOrder = [...columnOrder];
@@ -103,8 +124,13 @@ const ReusableTable = ({
     setColumnOrder(newColumnOrder);
   };
 
+  const clearDateFilters = () => {
+    setStartDate('');
+    setEndDate('');
+  };
+
   const table = useReactTable({
-    data,
+    data: filteredData,
     columns,
     state: {
       sorting,
@@ -162,6 +188,34 @@ const ReusableTable = ({
       <div className="w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden transition-colors">
         <div className="px-4 py-5 sm:px-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 bg-gray-50 dark:bg-gray-700">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              {/* Date Range Filter */}
+              <div className="flex flex-col sm:flex-row items-center gap-2">
+              <div className="w-full sm:w-auto flex items-center gap-2">
+                <span className="text-sm text-gray-700 dark:text-gray-300">From:</span>
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  className="w-full sm:w-auto px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm transition-colors"
+                />
+              </div>
+              <div className="w-full sm:w-auto flex items-center gap-2">
+                <span className="text-sm text-gray-700 dark:text-gray-300">To:</span>
+                <input
+                  type="date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  className="w-full sm:w-auto px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm transition-colors"
+                />
+              </div>
+              <button
+                onClick={clearDateFilters}
+                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 focus:outline-none"
+              >
+                <IoMdClose size={20} />
+              </button>
+            </div>
+            
             <div className="relative w-full sm:w-auto">
               <select
                 value={statusFilter}
